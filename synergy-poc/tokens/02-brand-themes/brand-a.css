@@ -1,0 +1,64 @@
+/* ==========================================================================
+   LAYER 2 — BRAND THEME: BRAND A
+   Selector: [data-brand="brand-a"] (specificity 0-1-0)
+
+   Brand A differentiator: orange primary. All other roles share universal
+   semantic values with Synergy (red=negative, green=positive, etc.).
+
+   In Figma terms, this is an "Extended Collection" — a separate collection
+   that overrides the base Synergy collection's brand-specific variables
+   while inheriting the semantic structure. In CSS, this becomes a separate
+   data-brand selector at the same specificity level.
+   ========================================================================== */
+
+[data-brand="brand-a"] {
+
+  /* PRIMARY — orange (Brand A differentiator) */
+  --brand-primary:        var(--color-orange-500);
+  --brand-primary-subtle: var(--color-orange-300);
+  --brand-primary-hover:  var(--color-orange-600);
+  --brand-primary-on:     var(--color-neutral-0);
+
+  /* SECONDARY — mid-dark neutral */
+  --brand-secondary:        var(--color-neutral-700);
+  --brand-secondary-subtle: var(--color-neutral-500);
+  --brand-secondary-hover:  var(--color-neutral-800);
+  --brand-secondary-on:     var(--color-neutral-0);
+
+  /* POSITIVE — green (universal: same across all brands) */
+  --brand-positive:        var(--color-green-500);
+  --brand-positive-subtle: var(--color-green-300);
+  --brand-positive-hover:  var(--color-green-600);
+  --brand-positive-on:     var(--color-neutral-0);
+
+  /* NEGATIVE — red (universal) */
+  --brand-negative:        var(--color-red-500);
+  --brand-negative-subtle: var(--color-red-300);
+  --brand-negative-hover:  var(--color-red-600);
+  --brand-negative-on:     var(--color-neutral-0);
+
+  /* INFORMATIVE — teal (universal) */
+  --brand-informative:        var(--color-teal-500);
+  --brand-informative-subtle: var(--color-teal-300);
+  --brand-informative-hover:  var(--color-teal-600);
+  --brand-informative-on:     var(--color-neutral-0);
+
+  /* HIGHLIGHT — purple (same as Synergy) */
+  --brand-highlight:        var(--color-purple-500);
+  --brand-highlight-subtle: var(--color-purple-300);
+  --brand-highlight-hover:  var(--color-purple-600);
+  --brand-highlight-on:     var(--color-neutral-0);
+
+  /* ATTENTION — yellow (universal) */
+  --brand-attention:        var(--color-yellow-500);
+  --brand-attention-subtle: var(--color-yellow-200);
+  --brand-attention-hover:  var(--color-yellow-600);
+  --brand-attention-on:     var(--color-neutral-900);
+
+  /* NEUTRAL — dark gray */
+  --brand-neutral:        var(--color-neutral-800);
+  --brand-neutral-subtle: var(--color-neutral-400);
+  --brand-neutral-hover:  var(--color-neutral-900);
+  --brand-neutral-on:     var(--color-neutral-0);
+
+}

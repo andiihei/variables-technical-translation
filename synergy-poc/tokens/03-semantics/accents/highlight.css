@@ -1,0 +1,43 @@
+/* ==========================================================================
+   LAYER 3a — SEMANTIC ACCENT: HIGHLIGHT
+   Selector: [data-brand][data-accent="highlight"] (specificity 0-2-0)
+
+   HIGHLIGHT: UI elements use the brand's highlight color. For Synergy and
+   Brand A this is purple; for Brand B it is orange (demonstrating that
+   extended collections can reassign any brand-level role independently).
+   Used for featured content, labels, badges, promotional UI.
+   ========================================================================== */
+
+[data-brand][data-accent="highlight"] {
+
+  /* ── SURFACE TOKENS ──────────────────────────────────────────────────── */
+
+  --backgrounds-default: var(--color-neutral-0);
+  --backgrounds-raised:  var(--color-neutral-50);
+  --backgrounds-lowered: var(--color-neutral-100);
+
+  --foregrounds-primary:   var(--color-neutral-900);
+  --foregrounds-secondary: var(--color-neutral-600);
+  --foregrounds-tertiary:  var(--color-neutral-400);
+  --foregrounds-link:      var(--brand-primary);
+
+  --border-default: var(--color-neutral-200);
+  --border-strong:  var(--color-neutral-400);
+
+  --focus-ring: var(--brand-primary);
+
+  /* ── UI ELEMENT TOKENS — HIGHLIGHT ACCENT ───────────────────────────── */
+
+  --ui-elements-fill-loud:   var(--brand-highlight);
+  --ui-elements-on-loud:     var(--brand-highlight-on);
+  --ui-elements-border-loud: var(--brand-highlight);
+
+  --ui-elements-fill-normal:   transparent;
+  --ui-elements-on-normal:     var(--brand-highlight);
+  --ui-elements-border-normal: var(--brand-highlight);
+
+  --ui-elements-fill-quiet:   color-mix(in srgb, var(--brand-highlight) 10%, transparent);
+  --ui-elements-on-quiet:     var(--brand-highlight);
+  --ui-elements-border-quiet: transparent;
+
+}

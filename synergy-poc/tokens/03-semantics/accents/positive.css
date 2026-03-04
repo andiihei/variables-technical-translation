@@ -1,0 +1,42 @@
+/* ==========================================================================
+   LAYER 3a — SEMANTIC ACCENT: POSITIVE
+   Selector: [data-brand][data-accent="positive"] (specificity 0-2-0)
+
+   POSITIVE: UI elements use the brand's positive (green) color. Used for
+   success states, confirmations, constructive actions (e.g. "Save", "Create").
+   Green is a universal semantic across all three brands.
+   ========================================================================== */
+
+[data-brand][data-accent="positive"] {
+
+  /* ── SURFACE TOKENS ──────────────────────────────────────────────────── */
+
+  --backgrounds-default: var(--color-neutral-0);
+  --backgrounds-raised:  var(--color-neutral-50);
+  --backgrounds-lowered: var(--color-neutral-100);
+
+  --foregrounds-primary:   var(--color-neutral-900);
+  --foregrounds-secondary: var(--color-neutral-600);
+  --foregrounds-tertiary:  var(--color-neutral-400);
+  --foregrounds-link:      var(--brand-primary);
+
+  --border-default: var(--color-neutral-200);
+  --border-strong:  var(--color-neutral-400);
+
+  --focus-ring: var(--brand-primary);
+
+  /* ── UI ELEMENT TOKENS — POSITIVE ACCENT ────────────────────────────── */
+
+  --ui-elements-fill-loud:   var(--brand-positive);
+  --ui-elements-on-loud:     var(--brand-positive-on);
+  --ui-elements-border-loud: var(--brand-positive);
+
+  --ui-elements-fill-normal:   transparent;
+  --ui-elements-on-normal:     var(--brand-positive);
+  --ui-elements-border-normal: var(--brand-positive);
+
+  --ui-elements-fill-quiet:   color-mix(in srgb, var(--brand-positive) 10%, transparent);
+  --ui-elements-on-quiet:     var(--brand-positive);
+  --ui-elements-border-quiet: transparent;
+
+}
