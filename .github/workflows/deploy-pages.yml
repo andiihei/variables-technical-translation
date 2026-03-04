@@ -1,0 +1,42 @@
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches: [main]
+    paths: ["synergy-poc/**"]   # only re-deploy when the POC files change
+  workflow_dispatch:             # allow manual trigger from the Actions tab
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Only one deployment can run at a time; skip queued runs but never cancel
+# a run that is already in progress.
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Configure Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload synergy-poc as Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          # Deploys the synergy-poc/ directory as the Pages root.
+          # Result: https://andiihei.github.io/variables-technical-translation/
+          path: "./synergy-poc"
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
