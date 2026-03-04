@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+<html lang="en" data-brand="synergy" data-accent="neutral">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Synergy Design System — CSS Variables POC</title>
+
+  <!-- ── TOKEN LAYERS — ORDER IS CRITICAL ─────────────────────────────────
+       Cascade hierarchy (specificity low → high):
+       01: :root                                           (0-0-0)
+       02: [data-brand="X"]                               (0-1-0)
+       03a: [data-brand][data-accent="X"]                 (0-2-0)
+       03b: [data-brand][data-accent] [data-mode="X"]     (0-3-0)
+       04: component selectors                            (0-1-0+)
+  ──────────────────────────────────────────────────────────────────────── -->
+
+  <!-- Layer 1: Primitives -->
+  <link rel="stylesheet" href="tokens/01-primitives.css">
+
+  <!-- Layer 2: Brand themes (Extended Collections in Figma) -->
+  <link rel="stylesheet" href="tokens/02-brand-themes/synergy.css">
+  <link rel="stylesheet" href="tokens/02-brand-themes/brand-a.css">
+  <link rel="stylesheet" href="tokens/02-brand-themes/brand-b.css">
+
+  <!-- Layer 3a: Semantic accents -->
+  <link rel="stylesheet" href="tokens/03-semantics/accents/neutral.css">
+  <link rel="stylesheet" href="tokens/03-semantics/accents/primary.css">
+  <link rel="stylesheet" href="tokens/03-semantics/accents/secondary.css">
+  <link rel="stylesheet" href="tokens/03-semantics/accents/positive.css">
+  <link rel="stylesheet" href="tokens/03-semantics/accents/negative.css">
+  <link rel="stylesheet" href="tokens/03-semantics/accents/informative.css">
+  <link rel="stylesheet" href="tokens/03-semantics/accents/highlight.css">
+  <link rel="stylesheet" href="tokens/03-semantics/accents/attention.css">
+
+  <!-- Layer 3b: Mode overrides (Modes within a collection in Figma) -->
+  <link rel="stylesheet" href="tokens/03-semantics/modes/light.css">
+  <link rel="stylesheet" href="tokens/03-semantics/modes/dark.css">
+
+  <!-- Layer 4: Components -->
+  <link rel="stylesheet" href="tokens/04-components/preview-box.css">
+
+  <style>
+    /* ── RESET ────────────────────────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    img, svg { display: block; max-width: 100%; }
+
+    /* ── PAGE SHELL ───────────────────────────────────────────────────── */
+    body {
+      background-color: var(--backgrounds-lowered);
+      color: var(--foregrounds-primary);
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      line-height: 1.5;
+      min-height: 100dvh;
+      transition: background-color 0.25s ease, color 0.25s ease;
+    }
+
+    /* ── PAGE HEADER ──────────────────────────────────────────────────── */
+    .page-header {
+      background-color: var(--backgrounds-default);
+      border-bottom: 1px solid var(--border-default);
+      padding: 1rem 1.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      transition: background-color 0.25s ease, border-color 0.25s ease;
+    }
+
+    .page-header h1 {
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--foregrounds-primary);
+      white-space: nowrap;
+    }
+
+    .page-header__subtitle {
+      font-size: 0.75rem;
+      color: var(--foregrounds-tertiary);
+    }
+
+    .page-header__badges {
+      display: flex;
+      gap: 0.375rem;
+      flex-wrap: wrap;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.25rem;
+      padding: 0.125rem 0.5rem;
+      border-radius: var(--radius-full);
+      font-size: 0.6875rem;
+      font-weight: 600;
+      line-height: 1.6;
+      background-color: color-mix(in srgb, var(--brand-primary) 12%, transparent);
+      color: var(--brand-primary);
+      border: 1px solid color-mix(in srgb, var(--brand-primary) 25%, transparent);
+      transition: all 0.25s ease;
+    }
+
+    .badge__key {
+      opacity: 0.65;
+      font-weight: 400;
+    }
+
+    /* ── LAYOUT ───────────────────────────────────────────────────────── */
+    .page-body {
+      display: grid;
+      grid-template-columns: 220px 1fr;
+      gap: 1.5rem;
+      padding: 1.5rem;
+      max-width: 1100px;
+      margin: 0 auto;
+      align-items: start;
+    }
+
+    @media (max-width: 700px) {
+      .page-body {
+        grid-template-columns: 1fr;
+        padding: 1rem;
+        gap: 1rem;
+      }
+    }
+
+    /* ── CONTROLS SIDEBAR ─────────────────────────────────────────────── */
+    .controls {
+      position: sticky;
+      top: calc(3.5rem + 1.5rem); /* header height + gap */
+      background-color: var(--backgrounds-default);
+      border: 1px solid var(--border-default);
+      border-radius: var(--radius-lg);
+      padding: 1.25rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+      transition: background-color 0.25s ease, border-color 0.25s ease;
+    }
+
+    @media (max-width: 700px) {
+      .controls { position: static; }
+    }
+
+    .control-group__label {
+      font-size: 0.6875rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--foregrounds-tertiary);
+      margin-bottom: 0.5rem;
+    }
+
+    .control-group__options {
+      display: flex;
+      flex-direction: column;
+      gap: 0.25rem;
+    }
+
+    .radio-label {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.875rem;
+      color: var(--foregrounds-secondary);
+      cursor: pointer;
+      padding: 0.25rem 0.375rem;
+      border-radius: var(--radius-sm);
+      transition: background-color 0.1s ease, color 0.1s ease;
+    }
+
+    .radio-label:hover {
+      background-color: var(--backgrounds-raised);
+      color: var(--foregrounds-primary);
+    }
+
+    .radio-label input[type="radio"] {
+      accent-color: var(--brand-primary);
+      width: 0.875rem;
+      height: 0.875rem;
+      flex-shrink: 0;
+    }
+
+    /* Selected state */
+    .radio-label:has(input:checked) {
+      color: var(--foregrounds-primary);
+      font-weight: 500;
+    }
+
+    .control-divider {
+      height: 1px;
+      background-color: var(--border-default);
+    }
+
+    /* ── MAIN CONTENT ─────────────────────────────────────────────────── */
+    .main-content {
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+    }
+
+    /* ── PREVIEW BOX ──────────────────────────────────────────────────── */
+    .preview-box__section {
+      /* uses component CSS */
+    }
+
+    /* ── CODE PANEL ───────────────────────────────────────────────────── */
+    .code-panel {
+      background-color: var(--color-neutral-950);
+      border: 1px solid var(--color-neutral-800);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+    }
+
+    .code-panel__header {
+      background-color: var(--color-neutral-900);
+      border-bottom: 1px solid var(--color-neutral-800);
+      padding: 0.5rem 1rem;
+      font-size: 0.6875rem;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--color-neutral-400);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .code-panel__body {
+      overflow-x: auto;
+    }
+
+    .code-panel pre {
+      padding: 1rem 1.25rem;
+      font-family: 'SF Mono', 'Fira Code', 'Cascadia Mono', 'Consolas', monospace;
+      font-size: 0.75rem;
+      line-height: 1.7;
+      color: var(--color-neutral-200);
+      white-space: pre;
+      min-width: max-content;
+    }
+
+    /* Syntax-ish coloring */
+    .token-comment { color: var(--color-neutral-500); }
+    .token-name    { color: var(--color-blue-300); }
+    .token-value   { color: var(--color-green-300); }
+
+    /* ── FOOTER NOTE ──────────────────────────────────────────────────── */
+    .poc-note {
+      font-size: 0.75rem;
+      color: var(--foregrounds-tertiary);
+      padding: 0.75rem 0;
+      border-top: 1px solid var(--border-default);
+      text-align: center;
+    }
+    .poc-note a {
+      color: var(--foregrounds-link);
+    }
+  </style>
+</head>
+
+<body data-mode="light">
+
+  <!-- ── PAGE HEADER ──────────────────────────────────────────────────── -->
+  <header class="page-header">
+    <div>
+      <h1>Synergy Design System</h1>
+      <div class="page-header__subtitle">Figma Variables → CSS Custom Properties · POC</div>
+    </div>
+    <div class="page-header__badges" id="state-badges">
+      <span class="badge"><span class="badge__key">brand</span> <span id="badge-brand">synergy</span></span>
+      <span class="badge"><span class="badge__key">accent</span> <span id="badge-accent">neutral</span></span>
+      <span class="badge"><span class="badge__key">mode</span> <span id="badge-mode">light</span></span>
+    </div>
+  </header>
+
+  <!-- ── PAGE BODY ────────────────────────────────────────────────────── -->
+  <div class="page-body">
+
+    <!-- CONTROLS SIDEBAR -->
+    <aside class="controls" role="complementary" aria-label="Token controls">
+
+      <!-- Brand -->
+      <div class="control-group" role="group" aria-labelledby="brand-group-label">
+        <div class="control-group__label" id="brand-group-label">Brand</div>
+        <div class="control-group__options">
+          <label class="radio-label">
+            <input type="radio" name="brand" value="synergy" checked> Synergy
+          </label>
+          <label class="radio-label">
+            <input type="radio" name="brand" value="brand-a"> Brand A
+          </label>
+          <label class="radio-label">
+            <input type="radio" name="brand" value="brand-b"> Brand B
+          </label>
+        </div>
+      </div>
+
+      <div class="control-divider" role="separator"></div>
+
+      <!-- Accent -->
+      <div class="control-group" role="group" aria-labelledby="accent-group-label">
+        <div class="control-group__label" id="accent-group-label">Accent</div>
+        <div class="control-group__options">
+          <label class="radio-label">
+            <input type="radio" name="accent" value="neutral" checked> Neutral
+          </label>
+          <label class="radio-label">
+            <input type="radio" name="accent" value="primary"> Primary
+          </label>
+          <label class="radio-label">
+            <input type="radio" name="accent" value="secondary"> Secondary
+          </label>
+          <label class="radio-label">
+            <input type="radio" name="accent" value="positive"> Positive
+          </label>
+          <label class="radio-label">
+            <input type="radio" name="accent" value="negative"> Negative
+          </label>
+          <label class="radio-label">
+            <input type="radio" name="accent" value="informative"> Informative
+          </label>
+          <label class="radio-label">
+            <input type="radio" name="accent" value="highlight"> Highlight
+          </label>
+          <label class="radio-label">
+            <input type="radio" name="accent" value="attention"> Attention
+          </label>
+        </div>
+      </div>
+
+      <div class="control-divider" role="separator"></div>
+
+      <!-- Mode -->
+      <div class="control-group" role="group" aria-labelledby="mode-group-label">
+        <div class="control-group__label" id="mode-group-label">Mode</div>
+        <div class="control-group__options">
+          <label class="radio-label">
+            <input type="radio" name="mode" value="light" checked> Light
+          </label>
+          <label class="radio-label">
+            <input type="radio" name="mode" value="dark"> Dark
+          </label>
+        </div>
+      </div>
+
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <main class="main-content">
+
+      <!-- PREVIEW BOX COMPONENT -->
+      <article class="preview-box" aria-label="Token preview">
+
+        <!-- Section: Backgrounds -->
+        <section class="preview-box__section">
+          <div class="preview-box__section-label">Backgrounds</div>
+          <div class="preview-box__bg-swatches">
+            <div class="preview-box__swatch preview-box__swatch--default">
+              <span class="preview-box__swatch-name">Default</span>
+              <span>--backgrounds-default</span>
+            </div>
+            <div class="preview-box__swatch preview-box__swatch--raised">
+              <span class="preview-box__swatch-name">Raised</span>
+              <span>--backgrounds-raised</span>
+            </div>
+            <div class="preview-box__swatch preview-box__swatch--lowered">
+              <span class="preview-box__swatch-name">Lowered</span>
+              <span>--backgrounds-lowered</span>
+            </div>
+          </div>
+        </section>
+
+        <!-- Section: Foregrounds -->
+        <section class="preview-box__section">
+          <div class="preview-box__section-label">Foregrounds</div>
+          <div class="preview-box__fg-samples">
+            <div class="preview-box__fg-row">
+              <span class="preview-box__fg-tag">Primary</span>
+              <span class="preview-box__fg-primary">The quick brown fox jumps over the lazy dog</span>
+            </div>
+            <div class="preview-box__fg-row">
+              <span class="preview-box__fg-tag">Secondary</span>
+              <span class="preview-box__fg-secondary">Supporting text and metadata labels</span>
+            </div>
+            <div class="preview-box__fg-row">
+              <span class="preview-box__fg-tag">Tertiary</span>
+              <span class="preview-box__fg-tertiary">Placeholder, disabled, and hint text</span>
+            </div>
+            <div class="preview-box__fg-row">
+              <span class="preview-box__fg-tag">Link</span>
+              <span class="preview-box__fg-link">Anchor text and inline navigation</span>
+            </div>
+          </div>
+        </section>
+
+        <!-- Section: Border & Focus -->
+        <section class="preview-box__section">
+          <div class="preview-box__section-label">Border &amp; Focus</div>
+          <div class="preview-box__border-samples">
+            <div class="preview-box__border-demo preview-box__border-demo--default">
+              border-default
+            </div>
+            <div class="preview-box__border-demo preview-box__border-demo--strong">
+              border-strong
+            </div>
+            <div class="preview-box__focus-demo">
+              focus-ring
+            </div>
+          </div>
+        </section>
+
+        <!-- Section: UI Elements -->
+        <section class="preview-box__section">
+          <div class="preview-box__section-label">UI Elements · Loud / Normal / Quiet</div>
+          <div class="preview-box__buttons">
+            <button class="btn btn--loud" type="button">Loud</button>
+            <button class="btn btn--normal" type="button">Normal</button>
+            <button class="btn btn--quiet" type="button">Quiet</button>
+          </div>
+        </section>
+
+      </article>
+
+      <!-- CODE PANEL -->
+      <section class="code-panel" aria-label="Resolved token values">
+        <div class="code-panel__header">
+          <span>Resolved Token Values</span>
+          <span style="font-weight:400;letter-spacing:0">Live · updates on every toggle</span>
+        </div>
+        <div class="code-panel__body">
+          <pre id="token-readout" aria-live="polite" aria-label="Current CSS custom property values"></pre>
+        </div>
+      </section>
+
+      <p class="poc-note">
+        Figma Variables → CSS Custom Properties ·
+        Synergy Design System · Wesco International ·
+        <a href="README.md">README</a>
+      </p>
+
+    </main>
+  </div>
+
+  <script>
+    /* ── STATE ─────────────────────────────────────────────────────────── */
+    const html = document.documentElement;
+    const body = document.body;
+    const tokenReadout = document.getElementById('token-readout');
+    const badgeBrand  = document.getElementById('badge-brand');
+    const badgeAccent = document.getElementById('badge-accent');
+    const badgeMode   = document.getElementById('badge-mode');
+
+    /* ── TOKEN LIST ────────────────────────────────────────────────────── */
+    const TOKENS = [
+      ['Backgrounds',   '--backgrounds-default'],
+      ['',              '--backgrounds-raised'],
+      ['',              '--backgrounds-lowered'],
+      ['Foregrounds',   '--foregrounds-primary'],
+      ['',              '--foregrounds-secondary'],
+      ['',              '--foregrounds-tertiary'],
+      ['',              '--foregrounds-link'],
+      ['Border',        '--border-default'],
+      ['',              '--border-strong'],
+      ['Focus',         '--focus-ring'],
+      ['UI – Loud',     '--ui-elements-fill-loud'],
+      ['',              '--ui-elements-on-loud'],
+      ['',              '--ui-elements-border-loud'],
+      ['UI – Normal',   '--ui-elements-fill-normal'],
+      ['',              '--ui-elements-on-normal'],
+      ['',              '--ui-elements-border-normal'],
+      ['UI – Quiet',    '--ui-elements-fill-quiet'],
+      ['',              '--ui-elements-on-quiet'],
+      ['',              '--ui-elements-border-quiet'],
+    ];
+
+    /* ── COLOR RESOLVER ────────────────────────────────────────────────── */
+    // The probe-element technique forces the browser to fully resolve any
+    // chain of var() references and return the computed color value.
+    // The probe MUST be appended to body (which has data-mode) so the full
+    // cascade — including mode overrides — is in scope during resolution.
+    function resolveColor(varName) {
+      const probe = document.createElement('div');
+      probe.style.cssText = 'display:none;color:var(' + varName + ')';
+      body.appendChild(probe);
+      const computed = getComputedStyle(probe).color; // "rgb(r, g, b)" or "rgba(…)"
+      body.removeChild(probe);
+
+      // Handle transparent / rgba
+      if (computed === 'rgba(0, 0, 0, 0)' || computed === 'transparent') {
+        return 'transparent';
+      }
+
+      // Convert rgb(r,g,b) or rgba(r,g,b,a) to hex
+      const nums = computed.match(/[\d.]+/g);
+      if (!nums) return computed;
+
+      const r = parseInt(nums[0]);
+      const g = parseInt(nums[1]);
+      const b = parseInt(nums[2]);
+      const hex = '#' + [r, g, b].map(n => n.toString(16).padStart(2, '0')).join('');
+
+      // If alpha < 1, append it
+      if (nums[4] !== undefined) {
+        const a = Math.round(parseFloat(nums[4]) * 255);
+        if (a < 255) return hex + a.toString(16).padStart(2, '0');
+      }
+      return hex;
+    }
+
+    /* ── CODE PANEL UPDATE ─────────────────────────────────────────────── */
+    function updateCodePanel() {
+      const brand  = html.dataset.brand;
+      const accent = html.dataset.accent;
+      const mode   = body.dataset.mode;
+
+      let lines = '/* brand: ' + brand + ' | accent: ' + accent + ' | mode: ' + mode + ' */\n\n';
+
+      let lastGroup = '';
+      TOKENS.forEach(([group, varName]) => {
+        if (group && group !== lastGroup) {
+          if (lastGroup !== '') lines += '\n';
+          lines += '/* ' + group + ' */\n';
+          lastGroup = group;
+        }
+        const value = resolveColor(varName);
+        lines += varName + ': ' + value + ';\n';
+      });
+
+      tokenReadout.textContent = lines;
+    }
+
+    /* ── BADGE UPDATE ──────────────────────────────────────────────────── */
+    function updateBadges() {
+      badgeBrand.textContent  = html.dataset.brand;
+      badgeAccent.textContent = html.dataset.accent;
+      badgeMode.textContent   = body.dataset.mode;
+    }
+
+    /* ── RADIO LISTENERS ───────────────────────────────────────────────── */
+    document.querySelectorAll('input[name="brand"]').forEach(radio => {
+      radio.addEventListener('change', () => {
+        html.dataset.brand = radio.value;
+        updateBadges();
+        updateCodePanel();
+      });
+    });
+
+    document.querySelectorAll('input[name="accent"]').forEach(radio => {
+      radio.addEventListener('change', () => {
+        html.dataset.accent = radio.value;
+        updateBadges();
+        updateCodePanel();
+      });
+    });
+
+    document.querySelectorAll('input[name="mode"]').forEach(radio => {
+      radio.addEventListener('change', () => {
+        body.dataset.mode = radio.value;
+        updateBadges();
+        updateCodePanel();
+      });
+    });
+
+    /* ── INIT ──────────────────────────────────────────────────────────── */
+    document.addEventListener('DOMContentLoaded', () => {
+      updateBadges();
+      updateCodePanel();
+    });
+  </script>
+
+</body>
+</html>

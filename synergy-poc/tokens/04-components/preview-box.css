@@ -1,0 +1,228 @@
+/* ==========================================================================
+   LAYER 4 — COMPONENT: PREVIEW BOX
+   Selector: .preview-box and child selectors
+
+   Components reference ONLY semantic layer tokens (--backgrounds-*,
+   --foregrounds-*, --ui-elements-*, etc.). Never primitives or brand tokens.
+
+   Pattern: each component defines local --{component}-* aliases of the
+   semantic tokens it uses. This enables per-instance overrides without
+   touching global tokens.
+
+   E.g. to invert a single preview box:
+     .preview-box { --preview-bg: var(--backgrounds-lowered); }
+   ========================================================================== */
+
+/* ── PREVIEW BOX SHELL ──────────────────────────────────────────────────── */
+
+.preview-box {
+  /* Component-level token aliases */
+  --preview-bg:         var(--backgrounds-default);
+  --preview-bg-raised:  var(--backgrounds-raised);
+  --preview-bg-lowered: var(--backgrounds-lowered);
+  --preview-fg:         var(--foregrounds-primary);
+  --preview-fg-sec:     var(--foregrounds-secondary);
+  --preview-fg-ter:     var(--foregrounds-tertiary);
+  --preview-fg-link:    var(--foregrounds-link);
+  --preview-border:     var(--border-default);
+  --preview-border-str: var(--border-strong);
+
+  background-color: var(--preview-bg);
+  color: var(--preview-fg);
+  border: var(--border-width-thin) solid var(--preview-border);
+  border-radius: var(--radius-lg);
+  padding: 1.5rem;
+  font-family: system-ui, -apple-system, sans-serif;
+  transition: background-color 0.25s ease, color 0.25s ease, border-color 0.25s ease;
+}
+
+/* ── SECTION HEADERS ────────────────────────────────────────────────────── */
+
+.preview-box__section-label {
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--preview-fg-ter);
+  margin-bottom: 0.5rem;
+}
+
+.preview-box__section + .preview-box__section {
+  margin-top: 1.25rem;
+  padding-top: 1.25rem;
+  border-top: var(--border-width-thin) solid var(--preview-border);
+}
+
+/* ── BACKGROUND SWATCHES ────────────────────────────────────────────────── */
+
+.preview-box__bg-swatches {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.preview-box__swatch {
+  flex: 1;
+  min-height: 3.5rem;
+  border-radius: var(--radius-md);
+  border: var(--border-width-thin) solid var(--border-default);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.25rem;
+  padding: 0.5rem;
+  font-size: 0.625rem;
+  font-weight: 500;
+  color: var(--preview-fg-ter);
+  transition: background-color 0.25s ease;
+}
+
+.preview-box__swatch--default  { background-color: var(--backgrounds-default); }
+.preview-box__swatch--raised   { background-color: var(--backgrounds-raised); }
+.preview-box__swatch--lowered  { background-color: var(--backgrounds-lowered); }
+
+.preview-box__swatch-name {
+  font-weight: 600;
+  color: var(--preview-fg-sec);
+}
+
+/* ── FOREGROUND TEXT SAMPLES ────────────────────────────────────────────── */
+
+.preview-box__fg-samples {
+  display: flex;
+  flex-direction: column;
+  gap: 0.375rem;
+}
+
+.preview-box__fg-row {
+  display: flex;
+  align-items: baseline;
+  gap: 0.75rem;
+  font-size: 0.875rem;
+}
+
+.preview-box__fg-tag {
+  font-size: 0.625rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: var(--preview-fg-ter);
+  width: 4.5rem;
+  flex-shrink: 0;
+}
+
+.preview-box__fg-primary   { color: var(--foregrounds-primary); }
+.preview-box__fg-secondary { color: var(--foregrounds-secondary); }
+.preview-box__fg-tertiary  { color: var(--foregrounds-tertiary); }
+.preview-box__fg-link      {
+  color: var(--foregrounds-link);
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+/* ── BORDER & FOCUS SAMPLES ─────────────────────────────────────────────── */
+
+.preview-box__border-samples {
+  display: flex;
+  gap: 0.75rem;
+  align-items: center;
+}
+
+.preview-box__border-demo {
+  flex: 1;
+  height: 2.5rem;
+  border-radius: var(--radius-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.6875rem;
+  font-weight: 500;
+  color: var(--preview-fg-sec);
+}
+
+.preview-box__border-demo--default {
+  border: var(--border-width-thin) solid var(--border-default);
+}
+
+.preview-box__border-demo--strong {
+  border: var(--border-width-thin) solid var(--border-strong);
+}
+
+.preview-box__focus-demo {
+  flex: 1;
+  height: 2.5rem;
+  border-radius: var(--radius-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.6875rem;
+  font-weight: 500;
+  color: var(--preview-fg-sec);
+  outline: var(--border-width-medium) solid var(--focus-ring);
+  outline-offset: 2px;
+  border: var(--border-width-thin) solid var(--border-default);
+}
+
+/* ── BUTTON VARIANTS ────────────────────────────────────────────────────── */
+
+.preview-box__buttons {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.btn {
+  padding: 0.5rem 1rem;
+  border-radius: var(--radius-md);
+  border: var(--border-width-thin) solid transparent;
+  font-size: 0.875rem;
+  font-weight: 500;
+  cursor: pointer;
+  line-height: 1.5;
+  font-family: inherit;
+  transition:
+    background-color 0.15s ease,
+    color 0.15s ease,
+    border-color 0.15s ease;
+}
+
+/* LOUD: filled / solid — highest prominence */
+.btn--loud {
+  background-color: var(--ui-elements-fill-loud);
+  color:            var(--ui-elements-on-loud);
+  border-color:     var(--ui-elements-border-loud);
+}
+.btn--loud:hover {
+  filter: brightness(0.92);
+}
+.btn--loud:focus-visible {
+  outline: var(--border-width-medium) solid var(--focus-ring);
+  outline-offset: 2px;
+}
+
+/* NORMAL: outlined — secondary prominence */
+.btn--normal {
+  background-color: var(--ui-elements-fill-normal);
+  color:            var(--ui-elements-on-normal);
+  border-color:     var(--ui-elements-border-normal);
+}
+.btn--normal:hover {
+  background-color: color-mix(in srgb, var(--ui-elements-on-normal) 8%, transparent);
+}
+.btn--normal:focus-visible {
+  outline: var(--border-width-medium) solid var(--focus-ring);
+  outline-offset: 2px;
+}
+
+/* QUIET: ghost — lowest prominence */
+.btn--quiet {
+  background-color: var(--ui-elements-fill-quiet);
+  color:            var(--ui-elements-on-quiet);
+  border-color:     var(--ui-elements-border-quiet);
+}
+.btn--quiet:hover {
+  background-color: color-mix(in srgb, var(--ui-elements-on-quiet) 12%, transparent);
+}
+.btn--quiet:focus-visible {
+  outline: var(--border-width-medium) solid var(--focus-ring);
+  outline-offset: 2px;
+}

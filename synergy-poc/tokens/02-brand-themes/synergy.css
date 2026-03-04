@@ -1,0 +1,66 @@
+/* ==========================================================================
+   LAYER 2 — BRAND THEME: SYNERGY (Wesco International)
+   Selector: [data-brand="synergy"] (specificity 0-1-0)
+
+   Maps brand-role tokens to primitives. Components use --brand-* tokens,
+   never raw primitives. Swapping data-brand swaps all component colors.
+
+   Variant convention per role:
+     --brand-{role}         main fill (button bg, indicator)
+     --brand-{role}-subtle  lightened (dark-mode link text, hover bg on transparent)
+     --brand-{role}-hover   slightly darker (hover on filled elements)
+     --brand-{role}-on      text/icon placed ON TOP of the fill (contrast pair)
+   ========================================================================== */
+
+[data-brand="synergy"] {
+
+  /* PRIMARY — Synergy blue */
+  --brand-primary:        var(--color-blue-500);
+  --brand-primary-subtle: var(--color-blue-300);
+  --brand-primary-hover:  var(--color-blue-600);
+  --brand-primary-on:     var(--color-neutral-0);
+
+  /* SECONDARY — near-black neutral */
+  --brand-secondary:        var(--color-neutral-800);
+  --brand-secondary-subtle: var(--color-neutral-600);
+  --brand-secondary-hover:  var(--color-neutral-900);
+  --brand-secondary-on:     var(--color-neutral-0);
+
+  /* POSITIVE — green (universal semantic: success) */
+  --brand-positive:        var(--color-green-500);
+  --brand-positive-subtle: var(--color-green-300);
+  --brand-positive-hover:  var(--color-green-600);
+  --brand-positive-on:     var(--color-neutral-0);
+
+  /* NEGATIVE — red (universal semantic: danger/error) */
+  --brand-negative:        var(--color-red-500);
+  --brand-negative-subtle: var(--color-red-300);
+  --brand-negative-hover:  var(--color-red-600);
+  --brand-negative-on:     var(--color-neutral-0);
+
+  /* INFORMATIVE — teal (distinct from blue to avoid collision with primary) */
+  --brand-informative:        var(--color-teal-500);
+  --brand-informative-subtle: var(--color-teal-300);
+  --brand-informative-hover:  var(--color-teal-600);
+  --brand-informative-on:     var(--color-neutral-0);
+
+  /* HIGHLIGHT — purple */
+  --brand-highlight:        var(--color-purple-500);
+  --brand-highlight-subtle: var(--color-purple-300);
+  --brand-highlight-hover:  var(--color-purple-600);
+  --brand-highlight-on:     var(--color-neutral-0);
+
+  /* ATTENTION — yellow (universal semantic: warning)
+     NOTE: -on uses dark text — yellow bg never passes WCAG with white text */
+  --brand-attention:        var(--color-yellow-500);
+  --brand-attention-subtle: var(--color-yellow-200);
+  --brand-attention-hover:  var(--color-yellow-600);
+  --brand-attention-on:     var(--color-neutral-900);
+
+  /* NEUTRAL — dark gray */
+  --brand-neutral:        var(--color-neutral-800);
+  --brand-neutral-subtle: var(--color-neutral-400);
+  --brand-neutral-hover:  var(--color-neutral-900);
+  --brand-neutral-on:     var(--color-neutral-0);
+
+}

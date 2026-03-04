@@ -1,0 +1,58 @@
+/* ==========================================================================
+   LAYER 3b — MODE OVERRIDE: DARK
+   Selector: [data-brand][data-accent] [data-mode="dark"] (specificity 0-3-0)
+
+   Overrides all surface tokens for dark contexts. The 0-3-0 specificity
+   ensures these values beat accent file definitions (0-2-0).
+
+   RULE BLOCK 1 — all accents in dark mode
+   Overrides backgrounds, foregrounds, borders, focus ring, and links.
+   UI element fills from accent files are left intact (colored fills remain
+   readable in dark mode). Exception: neutral accent (see Block 2 below).
+
+   RULE BLOCK 2 — neutral accent only in dark mode (specificity 0-4-0)
+   Problem: neutral's loud fill is neutral-800 (dark gray). On a neutral-950
+   background this has ~1.15:1 contrast ratio — essentially invisible.
+   Solution: a more-specific selector flips neutral fills to light gray.
+   This is the ONLY case where a mode file must patch UI element tokens.
+   All chromatic accents (primary, positive, negative, etc.) remain visible
+   in dark mode without patching.
+   ========================================================================== */
+
+/* ── BLOCK 1: All accents — surface token overrides ─────────────────────── */
+
+[data-brand][data-accent] [data-mode="dark"] {
+
+  --backgrounds-default: var(--color-neutral-950);
+  --backgrounds-raised:  var(--color-neutral-900);
+  --backgrounds-lowered: var(--color-neutral-800);
+
+  --foregrounds-primary:   var(--color-neutral-50);
+  --foregrounds-secondary: var(--color-neutral-400);
+  --foregrounds-tertiary:  var(--color-neutral-500);
+  --foregrounds-link:      var(--brand-primary-subtle);
+
+  --border-default: var(--color-neutral-700);
+  --border-strong:  var(--color-neutral-500);
+
+  --focus-ring: var(--brand-primary-subtle);
+
+}
+
+/* ── BLOCK 2: Neutral accent only — flip achromatic fills (specificity 0-4-0) */
+
+[data-brand][data-accent="neutral"] [data-mode="dark"] {
+
+  --ui-elements-fill-loud:   var(--color-neutral-200);
+  --ui-elements-on-loud:     var(--color-neutral-900);
+  --ui-elements-border-loud: var(--color-neutral-200);
+
+  --ui-elements-fill-normal:   transparent;
+  --ui-elements-on-normal:     var(--color-neutral-200);
+  --ui-elements-border-normal: var(--color-neutral-400);
+
+  --ui-elements-fill-quiet:   color-mix(in srgb, var(--color-neutral-200) 15%, transparent);
+  --ui-elements-on-quiet:     var(--color-neutral-200);
+  --ui-elements-border-quiet: transparent;
+
+}

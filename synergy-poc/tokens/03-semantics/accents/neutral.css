@@ -1,0 +1,55 @@
+/* ==========================================================================
+   LAYER 3a — SEMANTIC ACCENT: NEUTRAL
+   Selector: [data-brand][data-accent="neutral"] (specificity 0-2-0)
+
+   Defines ALL semantic tokens used by components. Surface tokens (backgrounds,
+   foregrounds, borders) are identical across all accent files — defined here
+   so any accent file alone is sufficient to render a complete page.
+
+   UI element tokens (fill/on/border for loud/normal/quiet) are the variable
+   part — they determine the interactive "accent color" of UI controls.
+
+   NEUTRAL: UI elements use dark gray (#262626), which reads as a neutral,
+   brand-agnostic action color. Useful for secondary UI contexts.
+   ========================================================================== */
+
+[data-brand][data-accent="neutral"] {
+
+  /* ── SURFACE TOKENS (identical across all accent files) ──────────────────
+     These establish the light-mode baseline. The mode files override these
+     at higher specificity (0-3-0) for dark mode.
+  ───────────────────────────────────────────────────────────────────────── */
+
+  --backgrounds-default: var(--color-neutral-0);
+  --backgrounds-raised:  var(--color-neutral-50);
+  --backgrounds-lowered: var(--color-neutral-100);
+
+  --foregrounds-primary:   var(--color-neutral-900);
+  --foregrounds-secondary: var(--color-neutral-600);
+  --foregrounds-tertiary:  var(--color-neutral-400);
+  --foregrounds-link:      var(--brand-primary);
+
+  --border-default: var(--color-neutral-200);
+  --border-strong:  var(--color-neutral-400);
+
+  --focus-ring: var(--brand-primary);
+
+  /* ── UI ELEMENT TOKENS — NEUTRAL ACCENT ─────────────────────────────────
+     Loud:   filled, highest contrast — primary CTA button
+     Normal: outlined, medium contrast — secondary button / badge
+     Quiet:  ghost, low contrast — tertiary button / subtle chip
+  ───────────────────────────────────────────────────────────────────────── */
+
+  --ui-elements-fill-loud:   var(--brand-neutral);
+  --ui-elements-on-loud:     var(--brand-neutral-on);
+  --ui-elements-border-loud: var(--brand-neutral);
+
+  --ui-elements-fill-normal:   transparent;
+  --ui-elements-on-normal:     var(--brand-neutral);
+  --ui-elements-border-normal: var(--brand-neutral);
+
+  --ui-elements-fill-quiet:   var(--color-neutral-100);
+  --ui-elements-on-quiet:     var(--brand-neutral);
+  --ui-elements-border-quiet: transparent;
+
+}

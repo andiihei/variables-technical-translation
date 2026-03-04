@@ -1,0 +1,50 @@
+/* ==========================================================================
+   LAYER 3a — SEMANTIC ACCENT: ATTENTION
+   Selector: [data-brand][data-accent="attention"] (specificity 0-2-0)
+
+   ATTENTION: UI elements use the brand's attention (yellow/amber) color.
+   Used for warnings, caution states, pending actions, advisory banners.
+
+   CONTRAST CAVEAT: Yellow-500 (#eab308) has a luminance of ~0.53, giving
+   a contrast ratio of only ~1.1:1 against white. The -on variant MUST be
+   dark text (neutral-900). Normal and quiet text use attention-hover
+   (yellow-600, #ca8a04) which achieves ~3.0:1 on white — AA for large text.
+   Use sparingly for small text; prefer a badge/chip treatment where size
+   provides additional legibility context.
+   ========================================================================== */
+
+[data-brand][data-accent="attention"] {
+
+  /* ── SURFACE TOKENS ──────────────────────────────────────────────────── */
+
+  --backgrounds-default: var(--color-neutral-0);
+  --backgrounds-raised:  var(--color-neutral-50);
+  --backgrounds-lowered: var(--color-neutral-100);
+
+  --foregrounds-primary:   var(--color-neutral-900);
+  --foregrounds-secondary: var(--color-neutral-600);
+  --foregrounds-tertiary:  var(--color-neutral-400);
+  --foregrounds-link:      var(--brand-primary);
+
+  --border-default: var(--color-neutral-200);
+  --border-strong:  var(--color-neutral-400);
+
+  --focus-ring: var(--brand-primary);
+
+  /* ── UI ELEMENT TOKENS — ATTENTION ACCENT ───────────────────────────── */
+
+  /* Loud: yellow fill with DARK text (never white on yellow) */
+  --ui-elements-fill-loud:   var(--brand-attention);
+  --ui-elements-on-loud:     var(--brand-attention-on);
+  --ui-elements-border-loud: var(--brand-attention);
+
+  /* Normal/quiet: use attention-hover (yellow-600) for text — darker = readable */
+  --ui-elements-fill-normal:   transparent;
+  --ui-elements-on-normal:     var(--brand-attention-hover);
+  --ui-elements-border-normal: var(--brand-attention);
+
+  --ui-elements-fill-quiet:   color-mix(in srgb, var(--brand-attention) 15%, transparent);
+  --ui-elements-on-quiet:     var(--brand-attention-hover);
+  --ui-elements-border-quiet: transparent;
+
+}

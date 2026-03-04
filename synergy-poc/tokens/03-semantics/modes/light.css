@@ -1,0 +1,42 @@
+/* ==========================================================================
+   LAYER 3b — MODE OVERRIDE: LIGHT
+   Selector: [data-brand][data-accent] [data-mode="light"] (specificity 0-3-0)
+
+   IMPORTANT — SELECTOR ANATOMY:
+   The space between [data-accent] and [data-mode] is a CSS descendant
+   combinator, not a typo. This is required because:
+     - data-brand and data-accent live on <html>
+     - data-mode lives on <body> (a descendant of <html>)
+   A chained selector [data-brand][data-accent][data-mode] would look for
+   ALL THREE attributes on the SAME element, which never matches.
+
+   Specificity breakdown:
+     [data-brand]    = 0-1-0
+     [data-accent]   = 0-1-0
+     [data-mode]     = 0-1-0
+     Total           = 0-3-0  (beats accent files at 0-2-0)
+
+   WHY THIS FILE EXISTS:
+   Light mode is the baseline — accent files already set these values.
+   This file is intentionally redundant. It serves as:
+     1. Documentation (explicit light-mode values are visible here)
+     2. A landing zone for any light-only overrides without touching accent files
+   ========================================================================== */
+
+[data-brand][data-accent] [data-mode="light"] {
+
+  --backgrounds-default: var(--color-neutral-0);
+  --backgrounds-raised:  var(--color-neutral-50);
+  --backgrounds-lowered: var(--color-neutral-100);
+
+  --foregrounds-primary:   var(--color-neutral-900);
+  --foregrounds-secondary: var(--color-neutral-600);
+  --foregrounds-tertiary:  var(--color-neutral-400);
+  --foregrounds-link:      var(--brand-primary);
+
+  --border-default: var(--color-neutral-200);
+  --border-strong:  var(--color-neutral-400);
+
+  --focus-ring: var(--brand-primary);
+
+}

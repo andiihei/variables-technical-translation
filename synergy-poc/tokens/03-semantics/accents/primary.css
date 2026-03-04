@@ -1,0 +1,42 @@
+/* ==========================================================================
+   LAYER 3a — SEMANTIC ACCENT: PRIMARY
+   Selector: [data-brand][data-accent="primary"] (specificity 0-2-0)
+
+   PRIMARY: UI elements use the brand's primary color (blue for Synergy,
+   orange for Brand A, purple for Brand B). This is the standard accent
+   for most interactive UI — the main call-to-action color.
+   ========================================================================== */
+
+[data-brand][data-accent="primary"] {
+
+  /* ── SURFACE TOKENS ──────────────────────────────────────────────────── */
+
+  --backgrounds-default: var(--color-neutral-0);
+  --backgrounds-raised:  var(--color-neutral-50);
+  --backgrounds-lowered: var(--color-neutral-100);
+
+  --foregrounds-primary:   var(--color-neutral-900);
+  --foregrounds-secondary: var(--color-neutral-600);
+  --foregrounds-tertiary:  var(--color-neutral-400);
+  --foregrounds-link:      var(--brand-primary);
+
+  --border-default: var(--color-neutral-200);
+  --border-strong:  var(--color-neutral-400);
+
+  --focus-ring: var(--brand-primary);
+
+  /* ── UI ELEMENT TOKENS — PRIMARY ACCENT ─────────────────────────────── */
+
+  --ui-elements-fill-loud:   var(--brand-primary);
+  --ui-elements-on-loud:     var(--brand-primary-on);
+  --ui-elements-border-loud: var(--brand-primary);
+
+  --ui-elements-fill-normal:   transparent;
+  --ui-elements-on-normal:     var(--brand-primary);
+  --ui-elements-border-normal: var(--brand-primary);
+
+  --ui-elements-fill-quiet:   color-mix(in srgb, var(--brand-primary) 10%, transparent);
+  --ui-elements-on-quiet:     var(--brand-primary);
+  --ui-elements-border-quiet: transparent;
+
+}
