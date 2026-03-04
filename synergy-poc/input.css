@@ -1,0 +1,24 @@
+/* ==========================================================================
+   TAILWIND + FLOWBITE ENTRY POINT
+   Compiled to: dist/output.css via PostCSS
+
+   Preflight is intentionally NOT imported here. The project's un-layered
+   CSS in styles/chrome.css and tokens/ already handles resets and base
+   styles. Un-layered CSS always wins over @layer-based styles, so
+   the token cascade is preserved automatically.
+   ========================================================================== */
+
+/* Flowbite design token definitions (colors, spacing, etc.) */
+@import "flowbite/src/themes/default";
+
+/* Tailwind v4: theme tokens + utilities ONLY (no Preflight) */
+@layer theme, base, components, utilities;
+@import "tailwindcss/theme.css" layer(theme);
+@import "tailwindcss/utilities.css" layer(utilities);
+
+/* Flowbite plugin — registers Flowbite-specific utility classes */
+@plugin "flowbite/plugin";
+
+/* Tell Tailwind to scan these sources for class names */
+@source "./node_modules/flowbite";
+@source "./index.html";

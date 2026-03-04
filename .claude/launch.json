@@ -1,0 +1,17 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "synergy-poc (static server)",
+      "runtimeExecutable": "bash",
+      "runtimeArgs": ["-c", "cd synergy-poc && python3 -m http.server 8081"],
+      "port": 8081
+    },
+    {
+      "name": "css-watch (Tailwind + Flowbite)",
+      "runtimeExecutable": "bash",
+      "runtimeArgs": ["-c", "cd synergy-poc && ~/.nvm/versions/node/v20.19.6/bin/node node_modules/.bin/postcss input.css -o dist/output.css --watch"],
+      "port": 0
+    }
+  ]
+}
